@@ -180,6 +180,13 @@
 .font-select-active > a div b {
   background-position: -18px 1px;
 }
+.typography-table .font-select{
+  width: 354px;
+}
+
+.typography-table .font-select .fs-results{
+  width: 344px;
+}
 .font-select.fs-reset{
   width: auto;
   margin-left: 10px;
@@ -187,4 +194,9 @@
 .typography-table td{
   padding-left: 0;
   padding-top: 0;
+}
+
+.typography-table label{
+  width: 100px;
+  display: inline-block;
 }

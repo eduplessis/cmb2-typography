@@ -20,6 +20,16 @@ class CMB2_Render_Typography_Field extends CMB2_Type_Base {
 		'center' => 'center',
 		'right' => 'right'
 	);
+	protected static $fields = array(
+		'font-family' 		=> true,
+		'font-size' 			=> true,
+		'font-weight' 		=> true,
+		'color' 					=> true,
+		'background' 			=> true,
+		'text-align' 			=> true,
+		'text-transform' 	=> true,
+		'line-height' 		=> true,
+	);
 
 	protected static $transform = array (
 		'' => 'Default',
@@ -60,6 +70,17 @@ class CMB2_Render_Typography_Field extends CMB2_Type_Base {
 
 	public static function class_name() { return __CLASS__; }
 
+	private function if_fields( string $field = null, $fields){
+		if( gettype( $field ) !== 'string' )
+			return false;
+
+		if (!isset( $fields[$field] ) || ( isset( $fields[$field] ) && $fields[$field] == true )){
+			return true;
+		}else{
+			return false;
+		}
+	}
+
 	/**
 	 * Handles outputting the address field.
 	 */
@@ -78,6 +99,11 @@ class CMB2_Render_Typography_Field extends CMB2_Type_Base {
 
 		));
 
+		
+		$fields = $this->field->args( 'fields', array() );
+		if ( empty( $fields ) ) {
+			$fields = self::$fields;
+		}
 	
 		$text_align = $this->field->args( 'text_align', array() );
 		if ( empty( $text_align ) ) {
@@ -113,21 +139,23 @@ class CMB2_Render_Typography_Field extends CMB2_Type_Base {
 		ob_start();
 		// Do html
 		?>
-		
 		<table class="typography-table">
-		<tbody><tr>
-			<td colspan="2">
-			<?php echo $this->types->input( array(
-				'name'  => $this->_name( '[font-family]' ),
-				'id'    => $this->_id( '_font_family' ),
-				'value' => $value['font-family'],
-				'desc'  => '',
-				'class' => 'cmb2-typography-fs'
-			) ); ?>
-			</td>
-			
+			<tbody>
+			<?php if ( $this->if_fields('font-family', $fields) )  : ?>
+			<tr>
+				<td colspan="2">
+				<?php echo $this->types->input( array(
+					'name'  => $this->_name( '[font-family]' ),
+					'id'    => $this->_id( '_font_family' ),
+					'value' => $value['font-family'],
+					'desc'  => '',
+					'class' => 'cmb2-typography-fs'
+				) ); ?>
+				</td>
 			</tr>
+			<?php endif ?>
 		<tr>
+		<?php if ( $this->if_fields('text-align', $fields) )  : ?>
 			<td>
 				<label>Text Align</label>
 				<?php echo $this->types->select( array(
@@ -139,6 +167,8 @@ class CMB2_Render_Typography_Field extends CMB2_Type_Base {
 			) ); ?>
 				
 			</td>
+		<?php endif ?>
+		<?php if ( $this->if_fields('font-size', $fields) )  : ?>
 			<td>
 				<label>Font Size</label>
 				<?php echo $this->types->input( array(
@@ -149,8 +179,10 @@ class CMB2_Render_Typography_Field extends CMB2_Type_Base {
 					'desc'  => '',
 				) ); ?>
 				</td>
+		<?php endif ?>
 		</tr>
 		<tr>
+		<?php if ( $this->if_fields('text-transform', $fields) )  : ?>
 			<td>
 			<label>Transform</label>
 			<?php echo $this->types->select( array(
@@ -161,6 +193,8 @@ class CMB2_Render_Typography_Field extends CMB2_Type_Base {
 				'desc'  => '',
 			) ); ?>
 			</td>
+		<?php endif ?>
+		<?php if ( $this->if_fields('line-height', $fields) )  : ?>
 			<td>
 			<label>Line Height</label>
 			<?php echo $this->types->input( array(
@@ -171,8 +205,10 @@ class CMB2_Render_Typography_Field extends CMB2_Type_Base {
 					'desc'  => '',
 				) ); ?>
 			</td>
+		<?php endif ?>
 		</tr>
 		<tr>
+		<?php if ( $this->if_fields('font-weight', $fields) )  : ?>
 			<td>
 			<label>Font Weight</label>
 			<?php echo $this->types->select( array(
@@ -184,8 +220,10 @@ class CMB2_Render_Typography_Field extends CMB2_Type_Base {
 			) ); ?>
 			</td>
 			<td></td>
+		<?php endif ?>
 		</tr>
 		<tr>
+		<?php if ( $this->if_fields('color', $fields) )  : ?>
 			<td>
 			<label>Font Color</label>
 			<?php echo $this->types->colorpicker(array(
@@ -195,6 +233,8 @@ class CMB2_Render_Typography_Field extends CMB2_Type_Base {
 				'desc' => ''
 			), $value['color'] ) ?>
 			</td>
+		<?php endif ?>
+		<?php if ( $this->if_fields('background', $fields) )  : ?>
 			<td>
 			<label>Background</label>
 			<?php echo $this->types->colorpicker(array(
@@ -202,7 +242,9 @@ class CMB2_Render_Typography_Field extends CMB2_Type_Base {
 				'id' => $this->_id('_background'),
 				'value' => $value['background'],
 				'desc' => ''
-			), $value['background']) ?></td>
+			), $value['background']) ?>
+			</td>
+		<?php endif ?>
 		</tr>
 		</tbody>
 		</table>
