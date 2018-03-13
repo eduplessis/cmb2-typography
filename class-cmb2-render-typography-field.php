@@ -70,7 +70,7 @@ class CMB2_Render_Typography_Field extends CMB2_Type_Base {
 
   public static function class_name() { return __CLASS__; }
 
-  private function if_fields( string $field = null, $fields){
+  private function if_fields( $field = null, $fields ){
     if( gettype( $field ) !== 'string' )
       return false;
 
